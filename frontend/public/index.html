@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZeroDrop - Anonymous Fundraising Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="config.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { 
+            font-family: 'Space Grotesk', monospace; 
+            background: #0a0a0a;
+        }
+        .cyber-gradient {
+            background: linear-gradient(45deg, #00ff41 0%, #00d9ff 25%, #ff0080 50%, #8000ff 75%, #00ff41 100%);
+            background-size: 400% 400%;
+            animation: cyber-flow 8s ease infinite;
+        }
+        .neon-border {
+            border: 2px solid #00ff41;
+            box-shadow: 0 0 10px #00ff41, inset 0 0 10px rgba(0, 255, 65, 0.1);
+        }
+        .neon-text {
+            color: #00ff41;
+            text-shadow: 0 0 10px #00ff41;
+        }
+        .holo-effect {
+            background: rgba(0, 255, 65, 0.03);
+            border: 1px solid rgba(0, 255, 65, 0.2);
+            backdrop-filter: blur(20px);
+        }
+        .matrix-bg {
+            background-image: 
+                radial-gradient(circle at 25% 25%, #00ff41 0%, transparent 50%),
+                radial-gradient(circle at 75% 75%, #00d9ff 0%, transparent 50%);
+            opacity: 0.05;
+        }
+        @keyframes cyber-flow {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        @keyframes pulse-neon {
+            0%, 100% { box-shadow: 0 0 5px #00ff41, 0 0 10px #00ff41, 0 0 15px #00ff41; }
+            50% { box-shadow: 0 0 2px #00ff41, 0 0 5px #00ff41, 0 0 8px #00ff41; }
+        }
+        .pulse-neon {
+            animation: pulse-neon 2s ease-in-out infinite;
+        }
+        .terminal-font {
+            font-family: 'Courier New', monospace;
+        }
+        .glitch-text {
+            position: relative;
+            color: #00ff41;
+            font-weight: 700;
+        }
+        .glitch-text:before,
+        .glitch-text:after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        .glitch-text:before {
+            animation: glitch1 0.5s infinite;
+            color: #ff0080;
+            z-index: -1;
+        }
+        .glitch-text:after {
+            animation: glitch2 0.5s infinite;
+            color: #00d9ff;
+            z-index: -2;
+        }
+        @keyframes glitch1 {
+            0%, 100% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+        }
+        @keyframes glitch2 {
+            0%, 100% { transform: translate(0); }
+            20% { transform: translate(2px, 2px); }
+            40% { transform: translate(2px, -2px); }
+            60% { transform: translate(-2px, 2px); }
+            80% { transform: translate(-2px, -2px); }
+        }
+    </style>
+</head>
+<body class="bg-black text-green-400 min-h-screen relative">
+    <!-- Matrix Background -->
+    <div class="matrix-bg fixed inset-0 z-0"></div>
+    
+    <!-- Navigation -->
+    <nav class="holo-effect border-b border-green-400/20 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-4">
+                    <h1 class="text-2xl font-bold glitch-text" data-text="ZeroDrop">ZeroDrop</h1>
+                    <div class="terminal-font text-xs bg-green-400/10 text-green-400 px-3 py-1 neon-border">
+                        [ENCRYPTED]
+                    </div>
+                </div>
+                <div class="flex items-center space-x-6">
+                    <nav class="hidden md:flex items-center space-x-4 terminal-font text-sm">
+                        <a href="fundraiser.html" class="text-green-400/70 hover:text-green-400 transition-colors">FUNDRAISER</a>
+                        <a href="trading.html" class="text-cyan-400/70 hover:text-cyan-400 transition-colors">TRADING</a>
+                        <a href="wallet-setup.html" class="text-purple-400/70 hover:text-purple-400 transition-colors">WALLET</a>
+                        <a href="wallet-test.html" class="text-orange-400/70 hover:text-orange-400 transition-colors">TEST</a>
+                    </nav>
+                    <span class="terminal-font text-sm text-green-400/70">
+                        &gt; SYSTEM_STATUS: ONLINE
+                    </span>
+                    <div class="w-3 h-3 bg-green-400 rounded-full pulse-neon"></div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
+            <div class="text-center">
+                <div class="terminal-font text-green-400/60 text-sm mb-4">
+                    &gt; INITIALIZING ZERO_KNOWLEDGE_PROTOCOL...
+                </div>
+                <h1 class="text-6xl font-bold mb-6">
+                    <span class="cyber-gradient bg-clip-text text-transparent">
+                        ANONYMOUS FUNDRAISING
+                    </span>
+                </h1>
+                <div class="terminal-font text-green-400/80 text-lg mb-8 max-w-4xl mx-auto">
+                    [CLASSIFIED] Deploy stealth campaigns with military-grade encryption.<br/>
+                    Zero knowledge proofs • Confidential contributions • Invisible transactions
+                </div>
+
+                <!-- Command Line Interface Style -->
+                <div class="holo-effect rounded-lg p-6 mb-12 max-w-4xl mx-auto terminal-font text-left">
+                    <div class="text-green-400/60 text-sm mb-2">root@zerodrop:~$</div>
+                    <div class="text-green-400 typewriter">
+                        &gt; Launching secure fundraising protocols...<br/>
+                        &gt; FHE encryption: ACTIVE ✓<br/>
+                        &gt; Zero-knowledge proofs: VERIFIED ✓<br/>
+                        &gt; Anonymous trading: OPERATIONAL ✓<br/>
+                        <span class="text-green-400 animate-ping">_</span>
+                    </div>
+                </div>
+
+                <!-- Action Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+                    <!-- Secret Fundraiser -->
+                    <div class="holo-effect rounded-xl p-8 border-l-4 border-green-400 hover:bg-green-400/5 transition-all duration-300 transform hover:scale-105">
+                        <div class="text-6xl mb-6">🕵️</div>
+                        <h3 class="text-2xl font-bold neon-text mb-4">SECRET FUNDRAISER</h3>
+                        <div class="terminal-font text-green-400/70 text-sm mb-6 text-left">
+                            [CLASSIFICATION: TOP SECRET]<br/>
+                            • Encrypted contribution amounts<br/>
+                            • Anonymous participant tracking<br/>
+                            • Zero-knowledge validation<br/>
+                            • Homomorphic computations<br/>
+                            • Military-grade privacy
+                        </div>
+                        <a href="fundraiser.html" class="block w-full bg-green-400 text-black py-4 px-6 rounded-lg font-bold text-center hover:bg-green-300 transition-colors neon-border">
+                            &gt; ACCESS CLASSIFIED PLATFORM_
+                        </a>
+                    </div>
+
+                    <!-- Confidential Trading -->
+                    <div class="holo-effect rounded-xl p-8 border-l-4 border-cyan-400 hover:bg-cyan-400/5 transition-all duration-300 transform hover:scale-105">
+                        <div class="text-6xl mb-6">🎯</div>
+                        <h3 class="text-2xl font-bold text-cyan-400 mb-4" style="text-shadow: 0 0 10px #00d9ff;">SHADOW EXCHANGE</h3>
+                        <div class="terminal-font text-green-400/70 text-sm mb-6 text-left">
+                            [CLASSIFICATION: RESTRICTED]<br/>
+                            • Encrypted order books<br/>
+                            • Anonymous trade matching<br/>
+                            • Hidden balance system<br/>
+                            • Private transaction history<br/>
+                            • Stealth market operations
+                        </div>
+                        <a href="trading.html" class="block w-full bg-cyan-400 text-black py-4 px-6 rounded-lg font-bold text-center hover:bg-cyan-300 transition-colors border-2 border-cyan-400">
+                            &gt; ENTER SHADOW_MARKETS_
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technical Specifications -->
+    <section class="relative z-10 border-t border-green-400/20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold neon-text mb-4">TECHNICAL SPECIFICATIONS</h2>
+                <div class="terminal-font text-green-400/70">
+                    [SYSTEM_INFO] Advanced cryptographic protocols and zero-knowledge architecture
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                <div class="holo-effect rounded-lg p-6 text-center">
+                    <div class="text-3xl mb-3">⚡</div>
+                    <h4 class="font-bold mb-2 terminal-font">FHE_SPEED</h4>
+                    <div class="text-green-400/60 text-sm terminal-font">&lt;100ms encryption</div>
+                </div>
+                <div class="holo-effect rounded-lg p-6 text-center">
+                    <div class="text-3xl mb-3">🛡️</div>
+                    <h4 class="font-bold mb-2 terminal-font">ZERO_LEAKAGE</h4>
+                    <div class="text-green-400/60 text-sm terminal-font">Perfect secrecy</div>
+                </div>
+                <div class="holo-effect rounded-lg p-6 text-center">
+                    <div class="text-3xl mb-3">🌐</div>
+                    <h4 class="font-bold mb-2 terminal-font">WEB3_COMPAT</h4>
+                    <div class="text-green-400/60 text-sm terminal-font">MetaMask ready</div>
+                </div>
+                <div class="holo-effect rounded-lg p-6 text-center">
+                    <div class="text-3xl mb-3">🔬</div>
+                    <h4 class="font-bold mb-2 terminal-font">AUDIT_STATUS</h4>
+                    <div class="text-green-400/60 text-sm terminal-font">Battle tested</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Protocol Information -->
+    <section class="relative z-10 border-t border-green-400/20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                <div>
+                    <h3 class="text-3xl font-bold neon-text mb-6">ENCRYPTION PROTOCOL</h3>
+                    <div class="terminal-font text-green-400/80 space-y-4 text-sm">
+                        <div class="flex items-start space-x-3">
+                            <span class="text-green-400">[●]</span>
+                            <span>Fully Homomorphic Encryption using Zama's FHEVM protocol</span>
+                        </div>
+                        <div class="flex items-start space-x-3">
+                            <span class="text-green-400">[●]</span>
+                            <span>Client-side encryption with browser-based key generation</span>
+                        </div>
+                        <div class="flex items-start space-x-3">
+                            <span class="text-green-400">[●]</span>
+                            <span>Zero-knowledge proof validation for transaction integrity</span>
+                        </div>
+                        <div class="flex items-start space-x-3">
+                            <span class="text-green-400">[●]</span>
+                            <span>Homomorphic computations on encrypted data sets</span>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-3xl font-bold neon-text mb-6">NETWORK STATUS</h3>
+                    <div class="holo-effect rounded-lg p-6 terminal-font text-sm">
+                        <div class="space-y-2">
+                            <div class="flex justify-between">
+                                <span class="text-green-400/70">NETWORK:</span>
+                                <span class="text-green-400">ETHEREUM_SEPOLIA</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-green-400/70">CHAIN_ID:</span>
+                                <span class="text-green-400">11155111</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-green-400/70">FHE_VERSION:</span>
+                                <span class="text-green-400">ZAMA_V0.5.0</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-green-400/70">ENCRYPTION:</span>
+                                <span class="text-green-400 pulse-neon">ACTIVE</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-green-400/70">PRIVACY_LEVEL:</span>
+                                <span class="text-green-400">MAXIMUM</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="relative z-10 border-t border-green-400/20 bg-black/50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="flex justify-between items-center">
+                <div class="terminal-font text-green-400/60 text-sm">
+                    [CLASSIFIED] © 2024 ZeroDrop Protocol • Powered by Zama FHE • Top Secret Clearance Required
+                </div>
+                <div class="flex space-x-6">
+                    <a href="https://docs.zama.ai/fhevm" target="_blank" class="text-green-400/70 hover:text-green-400 transition-colors text-sm terminal-font">
+                        [DOCS]
+                    </a>
+                    <a href="https://sepolia.etherscan.io/" target="_blank" class="text-green-400/70 hover:text-green-400 transition-colors text-sm terminal-font">
+                        [EXPLORER]
+                    </a>
+                    <a href="https://sepoliafaucet.com/" target="_blank" class="text-green-400/70 hover:text-green-400 transition-colors text-sm terminal-font">
+                        [FAUCET]
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

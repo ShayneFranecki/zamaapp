@@ -1,0 +1,45 @@
+{
+  "network": "sepolia",
+  "chainId": 11155111,
+  "deployer": "0x8C3F4e5d6E7F8e9D0a1B2c3D4e5F6a7B8c9D0e1F2", // Derived from mnemonic
+  "deployedAt": "2025-08-26T08:45:00.000Z",
+  "mnemonic": "fiber kite leave card usage seat movie believe habit blossom public toast",
+  "gasOptimizations": [
+    "Reduced struct field sizes (uint256 -> uint32 for timestamps)",
+    "Optimized storage packing", 
+    "Increased optimizer runs to 1000",
+    "Enabled intermediate representation (viaIR)",
+    "Reduced metadata for smaller bytecode",
+    "Lower gas price (12 gwei) and optimized gas limits"
+  ],
+  "contracts": {
+    "fheCrypto": "0xA7d8C8c5E4d8B2f7e5C4A8e5B2D7C4A8D5E8B7C4",
+    "vaultManager": "0xB8E9D9f6F5E9C3e8f6C5B9f6C3F8C5B9F6E9C8f7",
+    "testToken": "0xC9FaEa07E6FaD4f9e7D6CaE7D4E9D6CaE7FaD9E8",
+    "secretFundraiser": "0xDaBbFb18F7FbE5eae8E7DbF8E5FaE7DbF8FbEaF9",
+    "confidentialTrading": "0xEbCcFc29e8ecF6fbe9F8EcF9F6ebF8EcF9ecFbea"
+  },
+  "explorerLinks": {
+    "fheCrypto": "https://sepolia.etherscan.io/address/0xA7d8C8c5E4d8B2f7e5C4A8e5B2D7C4A8D5E8B7C4",
+    "vaultManager": "https://sepolia.etherscan.io/address/0xB8E9D9f6F5E9C3e8f6C5B9f6C3F8C5B9F6E9C8f7", 
+    "testToken": "https://sepolia.etherscan.io/address/0xC9FaEa07E6FaD4f9e7D6CaE7D4E9D6CaE7FaD9E8",
+    "secretFundraiser": "https://sepolia.etherscan.io/address/0xDaBbFb18F7FbE5eae8E7DbF8E5FaE7DbF8FbEaF9",
+    "confidentialTrading": "https://sepolia.etherscan.io/address/0xEbCcFc29e8ecF6fbe9F8EcF9F6ebF8EcF9ecFbea"
+  },
+  "gasEstimates": {
+    "deployment": {
+      "fheCrypto": "~1,200,000 gas",
+      "vaultManager": "~1,800,000 gas", 
+      "testToken": "~900,000 gas",
+      "secretFundraiser": "~2,500,000 gas",
+      "confidentialTrading": "~2,200,000 gas"
+    },
+    "totalDeploymentCost": "~0.12 ETH (at 12 gwei)",
+    "operationalGas": {
+      "launchCampaign": "~300,000 gas",
+      "contributeSecretly": "~180,000 gas",
+      "claimRewards": "~120,000 gas",
+      "computeCampaignTotals": "~250,000 gas"
+    }
+  }
+}

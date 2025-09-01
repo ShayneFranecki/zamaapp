@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZeroDrop - Wallet Setup Guide</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="config.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { 
+            font-family: 'Space Grotesk', monospace; 
+            background: #0a0a0a;
+        }
+        .holo-effect {
+            background: rgba(0, 255, 65, 0.03);
+            border: 1px solid rgba(0, 255, 65, 0.2);
+            backdrop-filter: blur(20px);
+        }
+        .neon-text {
+            color: #00ff41;
+            text-shadow: 0 0 10px #00ff41;
+        }
+        .neon-border {
+            border: 2px solid #00ff41;
+            box-shadow: 0 0 10px #00ff41, inset 0 0 10px rgba(0, 255, 65, 0.1);
+        }
+        .terminal-font {
+            font-family: 'Courier New', monospace;
+        }
+        .matrix-bg {
+            background-image: 
+                radial-gradient(circle at 25% 25%, #00ff41 0%, transparent 50%),
+                radial-gradient(circle at 75% 75%, #00d9ff 0%, transparent 50%);
+            opacity: 0.05;
+        }
+        @keyframes pulse-neon {
+            0%, 100% { box-shadow: 0 0 5px #00ff41, 0 0 10px #00ff41, 0 0 15px #00ff41; }
+            50% { box-shadow: 0 0 2px #00ff41, 0 0 5px #00ff41, 0 0 8px #00ff41; }
+        }
+        .pulse-neon {
+            animation: pulse-neon 2s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body class="bg-black text-green-400 min-h-screen relative">
+    <!-- Matrix Background -->
+    <div class="matrix-bg fixed inset-0 z-0"></div>
+    
+    <!-- Navigation -->
+    <nav class="holo-effect border-b border-green-400/20 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-4">
+                    <a href="index.html" class="text-2xl font-bold neon-text">ZeroDrop</a>
+                    <div class="terminal-font text-xs bg-green-400/10 text-green-400 px-3 py-1 neon-border">
+                        [WALLET_SETUP]
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <nav class="hidden md:flex items-center space-x-4 terminal-font text-sm">
+                        <a href="index.html" class="text-green-400/70 hover:text-green-400 transition-colors">HOME</a>
+                        <a href="fundraiser.html" class="text-green-400/70 hover:text-green-400 transition-colors">FUNDRAISER</a>
+                        <a href="trading.html" class="text-cyan-400/70 hover:text-cyan-400 transition-colors">TRADING</a>
+                        <a href="wallet-test.html" class="text-orange-400/70 hover:text-orange-400 transition-colors">TEST</a>
+                    </nav>
+                    <div id="walletStatus" class="terminal-font text-sm text-red-400">
+                        STATUS: METAMASK_NOT_DETECTED
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="relative z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            
+            <!-- Header -->
+            <div class="text-center mb-12">
+                <div class="terminal-font text-green-400/60 text-sm mb-4">
+                    &gt; WALLET_CONFIGURATION_PROTOCOL
+                </div>
+                <h1 class="text-4xl font-bold neon-text mb-6">WALLET SETUP GUIDE</h1>
+                <div class="terminal-font text-green-400/80 max-w-3xl mx-auto">
+                    [REQUIRED] Install and configure MetaMask wallet to access ZeroDrop Protocol.<br/>
+                    Secure. Encrypted. Anonymous.
+                </div>
+            </div>
+
+            <!-- Status Check -->
+            <div class="holo-effect rounded-xl p-8 mb-8">
+                <div class="flex items-center space-x-3 mb-6">
+                    <span class="text-3xl">🔍</span>
+                    <h2 class="text-2xl font-bold neon-text">SYSTEM DIAGNOSTIC</h2>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 terminal-font">
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-center p-3 bg-black/30 rounded">
+                            <span>Web3.js Library:</span>
+                            <span id="web3Status" class="text-red-400">CHECKING...</span>
+                        </div>
+                        <div class="flex justify-between items-center p-3 bg-black/30 rounded">
+                            <span>Ethereum Provider:</span>
+                            <span id="providerStatus" class="text-red-400">CHECKING...</span>
+                        </div>
+                        <div class="flex justify-between items-center p-3 bg-black/30 rounded">
+                            <span>MetaMask Extension:</span>
+                            <span id="metamaskStatus" class="text-red-400">CHECKING...</span>
+                        </div>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-center p-3 bg-black/30 rounded">
+                            <span>Configuration:</span>
+                            <span id="configStatus" class="text-red-400">CHECKING...</span>
+                        </div>
+                        <div class="flex justify-between items-center p-3 bg-black/30 rounded">
+                            <span>Network Config:</span>
+                            <span id="networkStatus" class="text-red-400">CHECKING...</span>
+                        </div>
+                        <div class="flex justify-between items-center p-3 bg-black/30 rounded">
+                            <span>Ready Status:</span>
+                            <span id="readyStatus" class="text-red-400">NOT_READY</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-6 text-center">
+                    <button onclick="runDiagnostic()" class="bg-green-400 text-black px-6 py-3 rounded font-bold terminal-font hover:bg-green-300 transition-colors">
+                        &gt; RUN_DIAGNOSTIC_
+                    </button>
+                </div>
+            </div>
+
+            <!-- Installation Guide -->
+            <div id="installationGuide" class="holo-effect rounded-xl p-8 mb-8">
+                <div class="flex items-center space-x-3 mb-6">
+                    <span class="text-3xl">🦊</span>
+                    <h2 class="text-2xl font-bold neon-text">METAMASK INSTALLATION</h2>
+                </div>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    
+                    <!-- Step 1: Download -->
+                    <div class="holo-effect rounded-lg p-6 border-l-4 border-green-400">
+                        <div class="text-2xl font-bold mb-4 neon-text">STEP 1</div>
+                        <h3 class="text-xl font-bold mb-4">Download MetaMask</h3>
+                        <div class="space-y-3">
+                            <a href="https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn" 
+                               target="_blank" 
+                               class="block bg-blue-600 text-white py-2 px-4 rounded text-center font-bold hover:bg-blue-700 transition-colors">
+                                🌐 Chrome Extension
+                            </a>
+                            <a href="https://addons.mozilla.org/en-US/firefox/addon/ether-metamask/" 
+                               target="_blank" 
+                               class="block bg-orange-600 text-white py-2 px-4 rounded text-center font-bold hover:bg-orange-700 transition-colors">
+                                🦊 Firefox Add-on
+                            </a>
+                            <a href="https://microsoftedge.microsoft.com/addons/detail/metamask/ejbalbakoplchlghecdalmeeeajnimhm" 
+                               target="_blank" 
+                               class="block bg-blue-800 text-white py-2 px-4 rounded text-center font-bold hover:bg-blue-900 transition-colors">
+                                🔷 Edge Extension
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Setup -->
+                    <div class="holo-effect rounded-lg p-6 border-l-4 border-cyan-400">
+                        <div class="text-2xl font-bold mb-4 text-cyan-400">STEP 2</div>
+                        <h3 class="text-xl font-bold mb-4">Setup Wallet</h3>
+                        <div class="terminal-font text-sm space-y-2 text-green-400/80">
+                            <div class="flex items-center space-x-2">
+                                <span class="text-green-400">➤</span>
+                                <span>Create new wallet</span>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <span class="text-green-400">➤</span>
+                                <span>Set secure password</span>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <span class="text-green-400">➤</span>
+                                <span>Save seed phrase safely</span>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <span class="text-green-400">➤</span>
+                                <span>Complete verification</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Connect -->
+                    <div class="holo-effect rounded-lg p-6 border-l-4 border-yellow-400">
+                        <div class="text-2xl font-bold mb-4 text-yellow-400">STEP 3</div>
+                        <h3 class="text-xl font-bold mb-4">Connect to ZeroDrop</h3>
+                        <div class="terminal-font text-sm space-y-2 text-green-400/80 mb-4">
+                            <div class="flex items-center space-x-2">
+                                <span class="text-green-400">➤</span>
+                                <span>Return to ZeroDrop</span>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <span class="text-green-400">➤</span>
+                                <span>Click "Connect Wallet"</span>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <span class="text-green-400">➤</span>
+                                <span>Auto-switch to Sepolia</span>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <span class="text-green-400">➤</span>
+                                <span>Start trading!</span>
+                            </div>
+                        </div>
+                        <button onclick="testConnection()" class="w-full bg-yellow-400 text-black py-2 px-4 rounded font-bold hover:bg-yellow-300 transition-colors">
+                            TEST CONNECTION
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Network Configuration -->
+            <div class="holo-effect rounded-xl p-8 mb-8">
+                <div class="flex items-center space-x-3 mb-6">
+                    <span class="text-3xl">🌐</span>
+                    <h2 class="text-2xl font-bold neon-text">SEPOLIA TESTNET CONFIG</h2>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="terminal-font text-sm">
+                        <div class="bg-black/30 p-4 rounded space-y-2">
+                            <div class="flex justify-between">
+                                <span class="text-green-400/70">Network Name:</span>
+                                <span class="text-green-400">Sepolia Test Network</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-green-400/70">Chain ID:</span>
+                                <span class="text-green-400">11155111</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-green-400/70">Currency:</span>
+                                <span class="text-green-400">SEP (Test ETH)</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-green-400/70">RPC URL:</span>
+                                <span class="text-green-400 break-all">https://ethereum-sepolia-rpc.publicnode.com</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="space-y-3">
+                        <button onclick="copyNetworkConfig()" class="w-full bg-green-400 text-black py-3 rounded font-bold terminal-font hover:bg-green-300 transition-colors">
+                            📋 COPY NETWORK CONFIG
+                        </button>
+                        <button onclick="addNetworkAutomatically()" class="w-full bg-cyan-400 text-black py-3 rounded font-bold terminal-font hover:bg-cyan-300 transition-colors">
+                            ⚡ AUTO-ADD NETWORK
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Links -->
+            <div class="text-center">
+                <div class="space-x-4">
+                    <a href="fundraiser.html" class="bg-green-400 text-black px-6 py-3 rounded font-bold terminal-font hover:bg-green-300 transition-colors inline-block">
+                        🎯 SECRET FUNDRAISER
+                    </a>
+                    <a href="trading.html" class="bg-cyan-400 text-black px-6 py-3 rounded font-bold terminal-font hover:bg-cyan-300 transition-colors inline-block">
+                        💱 SHADOW EXCHANGE
+                    </a>
+                    <a href="wallet-test.html" class="bg-yellow-400 text-black px-6 py-3 rounded font-bold terminal-font hover:bg-yellow-300 transition-colors inline-block">
+                        🔧 DIAGNOSTIC TEST
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        let diagnosticRun = false;
+
+        function runDiagnostic() {
+            diagnosticRun = true;
+            
+            // Test Web3
+            if (typeof Web3 !== 'undefined') {
+                document.getElementById('web3Status').textContent = '✓ LOADED';
+                document.getElementById('web3Status').className = 'text-green-400';
+            } else {
+                document.getElementById('web3Status').textContent = '✗ NOT_FOUND';
+                document.getElementById('web3Status').className = 'text-red-400';
+            }
+
+            // Test Ethereum Provider
+            if (typeof window.ethereum !== 'undefined') {
+                document.getElementById('providerStatus').textContent = '✓ DETECTED';
+                document.getElementById('providerStatus').className = 'text-green-400';
+            } else {
+                document.getElementById('providerStatus').textContent = '✗ NOT_FOUND';
+                document.getElementById('providerStatus').className = 'text-red-400';
+            }
+
+            // Test MetaMask
+            if (typeof window.ethereum !== 'undefined' && window.ethereum.isMetaMask) {
+                document.getElementById('metamaskStatus').textContent = '✓ INSTALLED';
+                document.getElementById('metamaskStatus').className = 'text-green-400';
+                document.getElementById('walletStatus').textContent = 'STATUS: METAMASK_DETECTED';
+                document.getElementById('walletStatus').className = 'terminal-font text-sm text-green-400';
+            } else {
+                document.getElementById('metamaskStatus').textContent = '✗ NOT_INSTALLED';
+                document.getElementById('metamaskStatus').className = 'text-red-400';
+            }
+
+            // Test Configuration
+            if (typeof CONTRACT_CONFIG !== 'undefined') {
+                document.getElementById('configStatus').textContent = '✓ LOADED';
+                document.getElementById('configStatus').className = 'text-green-400';
+            } else {
+                document.getElementById('configStatus').textContent = '✗ MISSING';
+                document.getElementById('configStatus').className = 'text-red-400';
+            }
+
+            // Test Network Config
+            if (typeof CONTRACT_CONFIG !== 'undefined' && CONTRACT_CONFIG.SEPOLIA_CONFIG) {
+                document.getElementById('networkStatus').textContent = '✓ READY';
+                document.getElementById('networkStatus').className = 'text-green-400';
+            } else {
+                document.getElementById('networkStatus').textContent = '✗ MISSING';
+                document.getElementById('networkStatus').className = 'text-red-400';
+            }
+
+            // Overall Ready Status
+            const allGreen = document.querySelectorAll('.text-green-400').length >= 4;
+            if (allGreen) {
+                document.getElementById('readyStatus').textContent = '🎉 READY!';
+                document.getElementById('readyStatus').className = 'text-green-400 font-bold';
+            } else {
+                document.getElementById('readyStatus').textContent = '❌ NOT_READY';
+                document.getElementById('readyStatus').className = 'text-red-400';
+            }
+        }
+
+        async function testConnection() {
+            if (typeof window.ethereum === 'undefined') {
+                alert('❌ MetaMask not detected!\n\nPlease install MetaMask first:\n1. Click the download link above\n2. Install the browser extension\n3. Set up your wallet\n4. Return here and try again');
+                return;
+            }
+
+            try {
+                const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+                if (accounts.length > 0) {
+                    alert('🎉 Connection Success!\n\nWallet: ' + accounts[0].substring(0, 6) + '...' + accounts[0].substring(38) + '\n\nYou can now use ZeroDrop Protocol!');
+                }
+            } catch (error) {
+                alert('❌ Connection Failed:\n\n' + error.message);
+            }
+        }
+
+        function copyNetworkConfig() {
+            const config = `Network Name: Sepolia Test Network
+Chain ID: 11155111
+Currency Symbol: SEP
+Currency Decimals: 18
+RPC URL: https://ethereum-sepolia-rpc.publicnode.com
+Block Explorer: https://sepolia.etherscan.io`;
+
+            navigator.clipboard.writeText(config).then(() => {
+                alert('📋 Network configuration copied to clipboard!\n\nYou can paste this into MetaMask to add Sepolia network manually.');
+            });
+        }
+
+        async function addNetworkAutomatically() {
+            if (typeof window.ethereum === 'undefined') {
+                alert('❌ MetaMask not detected!\n\nPlease install MetaMask first.');
+                return;
+            }
+
+            try {
+                await window.ethereum.request({
+                    method: 'wallet_addEthereumChain',
+                    params: [CONTRACT_CONFIG.SEPOLIA_CONFIG]
+                });
+                alert('🎉 Sepolia network added successfully!\n\nMetaMask will now switch to the Sepolia testnet.');
+            } catch (error) {
+                alert('❌ Failed to add network:\n\n' + error.message);
+            }
+        }
+
+        // Auto-run diagnostic on load
+        window.addEventListener('load', function() {
+            setTimeout(runDiagnostic, 1000);
+        });
+    </script>
+</body>
+</html>

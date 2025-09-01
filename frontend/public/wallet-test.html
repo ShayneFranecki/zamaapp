@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZeroDrop - Wallet Connection Test</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.9.0/web3.min.js"></script>
+    <script src="config.js"></script>
+    <style>
+        body {
+            font-family: 'Courier New', monospace;
+            background: #0a0a0a;
+            color: #00ff41;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .log {
+            background: rgba(0, 255, 65, 0.1);
+            border: 1px solid rgba(0, 255, 65, 0.3);
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            overflow-wrap: break-word;
+        }
+        .error {
+            color: #ff4444;
+            background: rgba(255, 68, 68, 0.1);
+            border-color: rgba(255, 68, 68, 0.3);
+        }
+        .success {
+            color: #44ff44;
+            background: rgba(68, 255, 68, 0.1);
+            border-color: rgba(68, 255, 68, 0.3);
+        }
+        button {
+            background: #00ff41;
+            color: black;
+            border: none;
+            padding: 10px 20px;
+            font-family: inherit;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #00dd35;
+        }
+    </style>
+</head>
+<body>
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <h1>🔐 ZeroDrop Wallet Test</h1>
+        <nav style="display: flex; gap: 20px; font-size: 14px;">
+            <a href="index.html" style="color: #00ff41; text-decoration: none;">HOME</a>
+            <a href="fundraiser.html" style="color: #00ff41; text-decoration: none;">FUNDRAISER</a>
+            <a href="trading.html" style="color: #00d9ff; text-decoration: none;">TRADING</a>
+            <a href="wallet-setup.html" style="color: #aa44ff; text-decoration: none;">WALLET</a>
+        </nav>
+    </div>
+    
+    <div class="log">
+        <strong>[SYSTEM]</strong> Wallet connection diagnostic tool<br/>
+        This page will help debug the wallet connection issues.
+    </div>
+
+    <div id="logs"></div>
+
+    <button onclick="testBasicWeb3()">Test Web3 Detection</button>
+    <button onclick="testMetaMask()">Test MetaMask</button>
+    <button onclick="testConfig()">Test Config Loading</button>
+    <button onclick="testWalletConnection()">Test Full Connection</button>
+    <button onclick="clearLogs()">Clear Logs</button>
+
+    <script>
+        function log(message, type = 'info') {
+            const logsDiv = document.getElementById('logs');
+            const logDiv = document.createElement('div');
+            logDiv.className = `log ${type}`;
+            logDiv.innerHTML = `<strong>[${new Date().toLocaleTimeString()}]</strong> ${message}`;
+            logsDiv.appendChild(logDiv);
+            console.log(message);
+        }
+
+        function clearLogs() {
+            document.getElementById('logs').innerHTML = '';
+        }
+
+        function testBasicWeb3() {
+            log('Testing Web3 detection...');
+            
+            if (typeof Web3 !== 'undefined') {
+                log('✓ Web3.js library loaded successfully', 'success');
+            } else {
+                log('✗ Web3.js library not found', 'error');
+            }
+
+            if (typeof window.ethereum !== 'undefined') {
+                log('✓ Ethereum provider detected', 'success');
+                log(`Provider: ${window.ethereum.isMetaMask ? 'MetaMask' : 'Other'}`);
+            } else {
+                log('✗ No Ethereum provider found', 'error');
+            }
+        }
+
+        function testConfig() {
+            log('Testing configuration loading...');
+            
+            if (typeof CONTRACT_CONFIG !== 'undefined') {
+                log('✓ Configuration loaded successfully', 'success');
+                log(`Network: ${CONTRACT_CONFIG.NETWORK}`);
+                log(`Chain ID: ${CONTRACT_CONFIG.CHAIN_ID}`);
+                log(`Zama Contracts: ${Object.keys(CONTRACT_CONFIG.ZAMA_CONTRACTS).length} addresses`);
+                log(`ZeroDrop Contracts: ${Object.keys(CONTRACT_CONFIG.CONTRACTS).length} addresses`);
+                
+                // Check if addresses are valid
+                const testAddress = CONTRACT_CONFIG.CONTRACTS.SECRET_FUNDRAISER;
+                if (testAddress && testAddress !== "0x...") {
+                    const web3Test = new Web3();
+                    if (web3Test.utils.isAddress(testAddress)) {
+                        log(`✓ Contract address format valid: ${testAddress}`, 'success');
+                    } else {
+                        log(`✗ Invalid contract address format: ${testAddress}`, 'error');
+                    }
+                } else {
+                    log('⚠ Contract addresses not deployed yet');
+                }
+            } else {
+                log('✗ Configuration not loaded', 'error');
+            }
+        }
+
+        async function testMetaMask() {
+            log('Testing MetaMask connection...');
+            
+            if (typeof window.ethereum === 'undefined') {
+                log('✗ MetaMask not installed', 'error');
+                return;
+            }
+
+            try {
+                const web3 = new Web3(window.ethereum);
+                log('✓ Web3 instance created', 'success');
+
+                // Test account access
+                const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+                if (accounts && accounts.length > 0) {
+                    log(`✓ Account connected: ${accounts[0]}`, 'success');
+                    
+                    // Validate address
+                    if (web3.utils.isAddress(accounts[0])) {
+                        log('✓ Address format valid', 'success');
+                    } else {
+                        log('✗ Address format invalid', 'error');
+                    }
+
+                    // Test network
+                    const chainId = await window.ethereum.request({ method: 'eth_chainId' });
+                    log(`Current network: ${chainId} (${parseInt(chainId, 16)})`);
+                    
+                    if (parseInt(chainId, 16) === 11155111) {
+                        log('✓ Connected to Sepolia', 'success');
+                    } else {
+                        log('⚠ Not on Sepolia network');
+                    }
+
+                } else {
+                    log('✗ No accounts found', 'error');
+                }
+
+            } catch (error) {
+                log(`✗ MetaMask error: ${error.message}`, 'error');
+                if (error.code) {
+                    log(`Error code: ${error.code}`);
+                }
+            }
+        }
+
+        async function testWalletConnection() {
+            log('Testing full wallet connection process...');
+            
+            try {
+                if (typeof CONTRACT_CONFIG === 'undefined') {
+                    log('✗ Configuration not loaded', 'error');
+                    return;
+                }
+
+                if (typeof window.ethereum === 'undefined') {
+                    log('✗ MetaMask not detected', 'error');
+                    return;
+                }
+
+                const web3 = new Web3(window.ethereum);
+                log('✓ Web3 initialized');
+
+                // Request accounts
+                const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+                if (!accounts || accounts.length === 0) {
+                    log('✗ No accounts returned', 'error');
+                    return;
+                }
+
+                const userAccount = accounts[0];
+                log(`Account: ${userAccount}`);
+
+                // Validate address
+                if (!web3.utils.isAddress(userAccount)) {
+                    log('✗ Invalid address format', 'error');
+                    return;
+                }
+                log('✓ Address validation passed', 'success');
+
+                // Check network
+                const chainId = await window.ethereum.request({ method: 'eth_chainId' });
+                const expectedChainId = CONTRACT_CONFIG.SEPOLIA_CONFIG.chainId;
+                
+                if (chainId !== expectedChainId) {
+                    log(`⚠ Wrong network. Expected: ${expectedChainId}, Got: ${chainId}`);
+                    
+                    try {
+                        await window.ethereum.request({
+                            method: 'wallet_switchEthereumChain',
+                            params: [{ chainId: expectedChainId }]
+                        });
+                        log('✓ Network switched to Sepolia', 'success');
+                    } catch (switchError) {
+                        if (switchError.code === 4902) {
+                            await window.ethereum.request({
+                                method: 'wallet_addEthereumChain',
+                                params: [CONTRACT_CONFIG.SEPOLIA_CONFIG]
+                            });
+                            log('✓ Sepolia network added', 'success');
+                        } else {
+                            log(`✗ Network switch failed: ${switchError.message}`, 'error');
+                        }
+                    }
+                } else {
+                    log('✓ Already on Sepolia network', 'success');
+                }
+
+                // Test contract initialization
+                const contractAddress = CONTRACT_CONFIG.CONTRACTS.SECRET_FUNDRAISER;
+                if (contractAddress && web3.utils.isAddress(contractAddress)) {
+                    const testABI = [
+                        {
+                            "inputs": [],
+                            "name": "test",
+                            "outputs": [],
+                            "stateMutability": "view",
+                            "type": "function"
+                        }
+                    ];
+                    
+                    try {
+                        const contract = new web3.eth.Contract(testABI, contractAddress);
+                        log('✓ Contract instance created', 'success');
+                    } catch (contractError) {
+                        log(`✗ Contract creation failed: ${contractError.message}`, 'error');
+                    }
+                } else {
+                    log('⚠ Contract not deployed yet');
+                }
+
+                log('🎉 Full wallet connection test completed!', 'success');
+
+            } catch (error) {
+                log(`✗ Connection test failed: ${error.message}`, 'error');
+                console.error('Full error:', error);
+            }
+        }
+
+        // Auto-run basic tests on load
+        window.addEventListener('load', function() {
+            log('ZeroDrop Wallet Test initialized');
+            setTimeout(() => {
+                testBasicWeb3();
+                testConfig();
+            }, 500);
+        });
+    </script>
+</body>
+</html>

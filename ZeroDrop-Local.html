@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZeroDrop Protocol - Local Access</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { 
+            font-family: 'Space Grotesk', monospace; 
+            background: #0a0a0a;
+        }
+        .cyber-gradient {
+            background: linear-gradient(45deg, #00ff41 0%, #00d9ff 25%, #ff0080 50%, #8000ff 75%, #00ff41 100%);
+            background-size: 400% 400%;
+            animation: cyber-flow 8s ease infinite;
+        }
+        .neon-border {
+            border: 2px solid #00ff41;
+            box-shadow: 0 0 10px #00ff41, inset 0 0 10px rgba(0, 255, 65, 0.1);
+        }
+        .neon-text {
+            color: #00ff41;
+            text-shadow: 0 0 10px #00ff41;
+        }
+        .holo-effect {
+            background: rgba(0, 255, 65, 0.03);
+            border: 1px solid rgba(0, 255, 65, 0.2);
+            backdrop-filter: blur(20px);
+        }
+        .matrix-bg {
+            background-image: 
+                radial-gradient(circle at 25% 25%, #00ff41 0%, transparent 50%),
+                radial-gradient(circle at 75% 75%, #00d9ff 0%, transparent 50%);
+            opacity: 0.05;
+        }
+        @keyframes cyber-flow {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        @keyframes pulse-neon {
+            0%, 100% { box-shadow: 0 0 5px #00ff41, 0 0 10px #00ff41, 0 0 15px #00ff41; }
+            50% { box-shadow: 0 0 2px #00ff41, 0 0 5px #00ff41, 0 0 8px #00ff41; }
+        }
+        .pulse-neon {
+            animation: pulse-neon 2s ease-in-out infinite;
+        }
+        .terminal-font {
+            font-family: 'Courier New', monospace;
+        }
+        .glitch-text {
+            position: relative;
+            color: #00ff41;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body class="bg-black text-green-400 min-h-screen relative">
+    <!-- Matrix Background -->
+    <div class="matrix-bg fixed inset-0 z-0"></div>
+    
+    <!-- Navigation -->
+    <nav class="holo-effect border-b border-green-400/20 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-4">
+                    <h1 class="text-2xl font-bold glitch-text">ZeroDrop</h1>
+                    <div class="terminal-font text-xs bg-green-400/10 text-green-400 px-3 py-1 neon-border">
+                        [LOCAL_ACCESS]
+                    </div>
+                </div>
+                <div class="flex items-center space-x-6">
+                    <span class="terminal-font text-sm text-green-400/70">
+                        &gt; STATUS: OFFLINE_MODE
+                    </span>
+                    <div class="w-3 h-3 bg-yellow-400 rounded-full pulse-neon"></div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
+            <div class="text-center">
+                <div class="terminal-font text-green-400/60 text-sm mb-4">
+                    &gt; INITIALIZING LOCAL_ACCESS_PROTOCOL...
+                </div>
+                <h1 class="text-6xl font-bold mb-6">
+                    <span class="cyber-gradient bg-clip-text text-transparent">
+                        ZERODROP PROTOCOL
+                    </span>
+                </h1>
+                <div class="terminal-font text-green-400/80 text-lg mb-8 max-w-4xl mx-auto">
+                    [LOCAL] Privacy-First DeFi Platform - Direct File Access Mode<br/>
+                    Zero knowledge proofs • Confidential transactions • Anonymous trading
+                </div>
+
+                <!-- Server Status -->
+                <div class="holo-effect rounded-lg p-6 mb-12 max-w-4xl mx-auto terminal-font text-left">
+                    <div class="text-green-400/60 text-sm mb-2">root@zerodrop:~$ server_status</div>
+                    <div class="text-green-400">
+                        &gt; Node.js Server: RUNNING on http://127.0.0.1:3013 ✓<br/>
+                        &gt; Frontend Files: READY ✓<br/>
+                        &gt; Smart Contracts: DEPLOYED ✓<br/>
+                        &gt; Direct Access: AVAILABLE ✓<br/>
+                        <span class="text-yellow-400">&gt; Network Proxy: DETECTED (blocking external access)</span><br/>
+                        <span class="text-green-400 animate-ping">_</span>
+                    </div>
+                </div>
+
+                <!-- Access Options -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto mb-12">
+                    
+                    <!-- Direct Files -->
+                    <div class="holo-effect rounded-xl p-8 border-l-4 border-green-400">
+                        <div class="text-4xl mb-4">📁</div>
+                        <h3 class="text-xl font-bold neon-text mb-4">DIRECT FILE ACCESS</h3>
+                        <div class="terminal-font text-green-400/70 text-sm mb-6 text-left">
+                            [RECOMMENDED]<br/>
+                            • Open files directly in browser<br/>
+                            • No server dependencies<br/>
+                            • Full offline functionality<br/>
+                            • Instant loading
+                        </div>
+                        <div class="space-y-2">
+                            <button onclick="openFile('index.html')" class="block w-full bg-green-400 text-black py-2 px-4 rounded text-sm font-bold hover:bg-green-300 transition-colors">
+                                🏠 MAIN PAGE
+                            </button>
+                            <button onclick="openFile('fundraiser.html')" class="block w-full bg-green-400 text-black py-2 px-4 rounded text-sm font-bold hover:bg-green-300 transition-colors">
+                                🕵️ SECRET FUNDRAISER
+                            </button>
+                            <button onclick="openFile('trading.html')" class="block w-full bg-green-400 text-black py-2 px-4 rounded text-sm font-bold hover:bg-green-300 transition-colors">
+                                💱 SHADOW EXCHANGE
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Server Access -->
+                    <div class="holo-effect rounded-xl p-8 border-l-4 border-yellow-400">
+                        <div class="text-4xl mb-4">🌐</div>
+                        <h3 class="text-xl font-bold text-yellow-400 mb-4">SERVER ACCESS</h3>
+                        <div class="terminal-font text-green-400/70 text-sm mb-6 text-left">
+                            [BLOCKED BY PROXY]<br/>
+                            • Node.js server running<br/>
+                            • Port 3013 active<br/>
+                            • Network proxy interference<br/>
+                            • May work with VPN off
+                        </div>
+                        <div class="space-y-2">
+                            <a href="http://127.0.0.1:3013/" class="block w-full bg-yellow-400 text-black py-2 px-4 rounded text-sm font-bold text-center">
+                                🌐 TRY SERVER ACCESS
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Alternative Ports -->
+                    <div class="holo-effect rounded-xl p-8 border-l-4 border-cyan-400">
+                        <div class="text-4xl mb-4">🔧</div>
+                        <h3 class="text-xl font-bold text-cyan-400 mb-4">TROUBLESHOOTING</h3>
+                        <div class="terminal-font text-green-400/70 text-sm mb-6 text-left">
+                            [DIAGNOSTIC]<br/>
+                            • Check network settings<br/>
+                            • Disable proxy/VPN<br/>
+                            • Try different browsers<br/>
+                            • Use direct file access
+                        </div>
+                        <button onclick="showTroubleshooting()" class="block w-full bg-cyan-400 text-black py-2 px-4 rounded text-sm font-bold hover:bg-cyan-300 transition-colors">
+                            🔧 DIAGNOSTIC TOOLS
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- File Paths -->
+    <section class="relative z-10 border-t border-green-400/20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold neon-text mb-4">DIRECT FILE PATHS</h2>
+                <div class="terminal-font text-green-400/70">
+                    [INFO] Complete file paths for direct browser access
+                </div>
+            </div>
+
+            <div class="holo-effect rounded-xl p-8 terminal-font text-sm">
+                <div class="space-y-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <div class="text-green-400 mb-2">📄 MAIN INTERFACE:</div>
+                            <div class="bg-black/30 p-3 rounded text-green-400/70 break-all">
+                                D:\zamadapp\dapp13\frontend\public\index.html
+                            </div>
+                            <button onclick="copyPath('D:\\zamadapp\\dapp13\\frontend\\public\\index.html')" class="mt-2 text-xs bg-green-400/20 text-green-400 px-3 py-1 rounded hover:bg-green-400/30">
+                                COPY PATH
+                            </button>
+                        </div>
+                        <div>
+                            <div class="text-green-400 mb-2">🕵️ SECRET FUNDRAISER:</div>
+                            <div class="bg-black/30 p-3 rounded text-green-400/70 break-all">
+                                D:\zamadapp\dapp13\frontend\public\fundraiser.html
+                            </div>
+                            <button onclick="copyPath('D:\\zamadapp\\dapp13\\frontend\\public\\fundraiser.html')" class="mt-2 text-xs bg-green-400/20 text-green-400 px-3 py-1 rounded hover:bg-green-400/30">
+                                COPY PATH
+                            </button>
+                        </div>
+                        <div>
+                            <div class="text-green-400 mb-2">💱 SHADOW EXCHANGE:</div>
+                            <div class="bg-black/30 p-3 rounded text-green-400/70 break-all">
+                                D:\zamadapp\dapp13\frontend\public\trading.html
+                            </div>
+                            <button onclick="copyPath('D:\\zamadapp\\dapp13\\frontend\\public\\trading.html')" class="mt-2 text-xs bg-green-400/20 text-green-400 px-3 py-1 rounded hover:bg-green-400/30">
+                                COPY PATH
+                            </button>
+                        </div>
+                        <div>
+                            <div class="text-green-400 mb-2">📊 PROJECT FOLDER:</div>
+                            <div class="bg-black/30 p-3 rounded text-green-400/70 break-all">
+                                D:\zamadapp\dapp13\
+                            </div>
+                            <button onclick="copyPath('D:\\zamadapp\\dapp13\\')" class="mt-2 text-xs bg-green-400/20 text-green-400 px-3 py-1 rounded hover:bg-green-400/30">
+                                COPY PATH
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        function openFile(filename) {
+            const filepath = 'D:\\zamadapp\\dapp13\\frontend\\public\\' + filename;
+            // Try to open file in new tab
+            window.open('file:///' + filepath.replace(/\\/g, '/'), '_blank');
+        }
+
+        function copyPath(path) {
+            navigator.clipboard.writeText(path).then(() => {
+                alert('路径已复制到剪贴板: ' + path);
+            }).catch(() => {
+                // Fallback for older browsers
+                const textArea = document.createElement('textarea');
+                textArea.value = path;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                alert('路径已复制到剪贴板: ' + path);
+            });
+        }
+
+        function showTroubleshooting() {
+            alert(`🔧 故障排除步骤:
+
+1. 直接文件访问（推荐）:
+   - 复制文件路径
+   - 粘贴到浏览器地址栏
+   - 按回车键打开
+
+2. 服务器访问问题:
+   - 检查是否启用了代理或VPN
+   - 临时关闭杀毒软件
+   - 尝试Chrome或Firefox浏览器
+
+3. 网络配置:
+   - 确保127.0.0.1没有被屏蔽
+   - 检查防火墙设置
+   - 尝试以管理员身份运行
+
+4. 替代方案:
+   - 双击HTML文件直接打开
+   - 使用资源管理器导航到文件夹
+   - 右键选择"打开方式" > 浏览器`);
+        }
+
+        // Auto-check server status
+        setInterval(function() {
+            fetch('http://127.0.0.1:3013/')
+                .then(response => {
+                    if (response.ok) {
+                        document.querySelector('.text-yellow-400').textContent = '> Server Access: AVAILABLE ✓';
+                    }
+                })
+                .catch(err => {
+                    // Server not accessible
+                });
+        }, 5000);
+    </script>
+</body>
+</html>

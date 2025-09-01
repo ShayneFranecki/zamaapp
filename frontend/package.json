@@ -1,0 +1,29 @@
+{
+  "name": "zerodrop-frontend",
+  "version": "1.0.0",
+  "description": "Frontend for ZeroDrop confidential fundraising and trading platform",
+  "main": "index.html",
+  "scripts": {
+    "start": "python -m http.server 3013",
+    "dev": "python -m http.server 3013",
+    "serve": "python -m http.server 3013"
+  },
+  "keywords": [
+    "frontend",
+    "blockchain",
+    "fhe",
+    "privacy",
+    "confidential",
+    "fundraising",
+    "trading"
+  ],
+  "author": "ZeroDrop Protocol Team",
+  "license": "UNLICENSED",
+  "dependencies": {},
+  "devDependencies": {},
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ]
+}
